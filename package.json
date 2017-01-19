@@ -1,13 +1,13 @@
 {
   "name": "StanLee-WPTheme-Generator",
-  "version": "1.0.1",
+  "version": "1.0.0",
   "description": "Generator for a WordPress starter theme (using Stan Lee) with Gulp, Bootstrap and other good stuff",
   "files": [
     "app"
   ],
   "repository": {
     "type": "git",
-    "url": "https://github.com/tomtomgo92/StanLee-WPTheme-Generator"
+    "url": "https://github.com/ThatMuch/StanLee-WPTheme-Generator"
   },
   "keywords": [
     "yeoman-generator",
@@ -20,15 +20,15 @@
   "author": "Mathilde and Thomas based on pakage MNyorba",
   "license": "MIT",
   "dependencies": {
-    "chalk": "^1.1.1",
-    "copy": "^0.1.3",
-    "del": "^2.2.0",
-    "download": "^4.4.3",
+    "chalk": "^1.1.3",
+    "copy": "^0.3.0",
+    "del": "^2.2.2",
+    "download": "^5.0.2",
     "download-status": "^2.2.1",
-    "lodash": "^4.3.0",
+    "lodash": "^4.17.4",
     "path": "^0.12.7",
     "walk": "^2.3.9",
-    "yeoman-generator": "^0.22.5",
-    "yosay": "^1.1.0"
+    "yeoman-generator": "^1.0.1",
+    "yosay": "^1.2.1"
   }
 }

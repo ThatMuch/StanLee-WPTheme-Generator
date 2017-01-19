@@ -18,7 +18,7 @@ var del           = require('del');
 var zip           = require('gulp-zip');
 var browserSync   = require('browser-sync');
 var runSequence   = require('run-sequence');
-var wiredep 		  = require('wiredep').stream;
+var wiredep 	  = require('wiredep').stream;
 var js_files      = ['js/*.js', '!js/*.min.js', '!js/lib/**/*.js'];
 
 var build_files = [
