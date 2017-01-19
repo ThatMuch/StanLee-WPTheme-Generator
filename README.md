@@ -15,10 +15,10 @@ Installation Version [FRANCAISE](https://github.com/tomtomgo92/StanLee-WPTheme-G
 npm install -g yo gulp
 ```
 
-##### Install `generator-stanlee-wptheme`:
+##### Install `generator-stanlee`:
 
 ```bash
-npm install -g generator-stanlee-wptheme
+npm install -g generator-stanlee
 ```
 
 ### Run
