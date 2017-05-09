@@ -129,7 +129,7 @@ module.exports = generators.Base.extend({
       this.log(chalk.yellow('\nLet\'s grab the latest version of Underscores...'));
 
       new download({mode: '755', extract: true, strip: 1})
-        .get('https://github.com/ThatMuch/stanLee-wordpress/archive/master.tar.gz')
+        .get('https://github.com/tomtomgo92/StanLee/archive/master.tar.gz')
         .dest('.')
         .use(downloadStatus())
         .run(callback);
