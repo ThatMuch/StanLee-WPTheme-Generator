@@ -1,6 +1,6 @@
 {
   "name": "generator-stanlee",
-  "version": "1.0.1",
+  "version": "1.0.3",
   "description": "Generator for a WordPress starter theme (using Stan Lee) with Gulp, Bootstrap and other good stuff",
   "files": [
     "app"
