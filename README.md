@@ -32,7 +32,7 @@ mkdir my-new-theme && cd $_
 ##### Run `yo stanlee-wptheme`, and fill the info:
 
 ```bash
-yo stanlee-wptheme
+yo stanlee
 ```
 
 ## Gulp usage
