@@ -29,7 +29,7 @@ npm install -g generator-stanlee
 mkdir my-new-theme && cd $_
 ```
 
-##### Run `yo stanlee-wptheme`, and fill the info:
+##### Run `yo stanlee`, and fill the info:
 
 ```bash
 yo stanlee
