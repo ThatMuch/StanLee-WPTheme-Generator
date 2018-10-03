@@ -25,12 +25,12 @@ module.exports = generators.Base.extend({
           message: 'Localhost address',
           default: 'localhost'
         },
-				{
+/* 				{
           type: 'input',
           name: 'domenname',
           message: 'Add your domain name',
           default: ''
-        },
+        }, */
         {
           type: 'input',
           name: 'themename',
@@ -47,25 +47,25 @@ module.exports = generators.Base.extend({
           type: 'input',
           name: 'themeuri',
           message: 'Theme URI',
-          default: 'https://example.com/themeuri/'
+          default: 'https://thatmuch.fr'
         },
         {
           type: 'input',
           name: 'Author',
           message: 'Author',
-          default: 'Author'
+          default: 'ThatMuch'
         },
         {
           type: 'input',
           name: 'authoruri',
           message: 'Author URI',
-          default: 'https://example.com/authoruri/'
+          default: 'https://thatmuch.fr'
         },
         {
           type: 'input',
           name: 'authoremail',
           message: 'Author Email',
-          default: 'info@example.com'
+          default: 'social@thatmuch.fr'
         },
         {
           type: 'input',
@@ -247,7 +247,7 @@ module.exports = generators.Base.extend({
 
             var result;
 
-            result = data.replace(/Copyright (C) 2016 Automattic/g, 'Copyright (C) 2016 ' + _this.props.author);
+            result = data.replace(/Copyright (C) 2018 ThatMuch/g, 'Copyright (C) 2018 ' + _this.props.author);
             result = result.replace(/Project-Id-Version: _s/g, 'Project-Id-Version: ' + _this.props.themename);
             result = result.replace(/Report-Msgid-Bugs-To: https:\/\/wordpress.org\/tags\/_s/g, 'Report-Msgid-Bugs-To: ' + _this.props.bugreport);
             result = result.replace(/Language-Team: LANGUAGE <LL@li\.org>/g, 'Language-Team: ' + _this.props.author + '<' + _this.props.authoremail + '>');
@@ -318,7 +318,7 @@ module.exports = generators.Base.extend({
           this.destinationPath('gulpfile.js'),
           {
             proxy_address: this.props.proxyname,
-            proxy_domain: this.props.domenname,
+           // proxy_domain: this.props.domenname,
             theme_domain: this.props.themeslug,
             package_name: this.props.themename,
             theme_bugreport: this.props.bugreport,
@@ -336,25 +336,39 @@ module.exports = generators.Base.extend({
         this.log(chalk.yellow('\nInstalling required packages...'));
 
         this.npmInstall(['gulp'], { 'saveDev': true });
+        this.npmInstall(['gulp-comcat'], { 'saveDev': true });
+        this.npmInstall(['gulp-rename'], { 'saveDev': true });
+        this.npmInstall(['gulp-order'], { 'saveDev': true });
         this.npmInstall(['browser-sync'], { 'saveDev': true });
-        this.npmInstall(['gulp-plumber'], { 'saveDev': true });
         this.npmInstall(['gulp-sass'], { 'saveDev': true });
+        this.npmInstall(['gulp-clean-css'], { 'saveDev': true });
         this.npmInstall(['gulp-autoprefixer'], { 'saveDev': true });
         this.npmInstall(['gulp-csscomb'], { 'saveDev': true });
-        this.npmInstall(['gulp-cssbeautify'], { 'saveDev': true });
-        this.npmInstall(['gulp-sourcemaps'], { 'saveDev': true });
-        this.npmInstall(['gulp-rename'], { 'saveDev': true });
-        this.npmInstall(['gulp-uglify'], { 'saveDev': true });
-        this.npmInstall(['jshint'], { 'saveDev': true });
-        this.npmInstall(['gulp-jshint'], { 'saveDev': true });
-        this.npmInstall(['jshint-stylish'], { 'saveDev': true });
         this.npmInstall(['gulp-wp-pot'], { 'saveDev': true });
-        this.npmInstall(['gulp-sort'], { 'saveDev': true });
-        this.npmInstall(['gulp-group-css-media-queries'], { 'saveDev': true });
+        this.npmInstall(['gulp-rev'], { 'saveDev': true });
+        this.npmInstall(['gulp-uglify'], { 'saveDev': true });
+        this.npmInstall(['gulp-notify'], { 'saveDev': true });
+        this.npmInstall(['gulp-plumber'], { 'saveDev': true });
+        this.npmInstall(['gulp-watch'], { 'saveDev': true });
         this.npmInstall(['del'], { 'saveDev': true });
         this.npmInstall(['gulp-zip'], { 'saveDev': true });
         this.npmInstall(['run-sequence'], { 'saveDev': true });
-        this.npmInstall(['wiredep'], { 'saveDev': true });
+
+        this.npmInstall(['animate.css'], { 'saveDev': false });
+        this.npmInstall(['bootstrap'], { 'saveDev': false });
+        this.npmInstall(['hamburgers'], { 'saveDev': false });
+        this.npmInstall(['normalize.css'], { 'saveDev': false });
+        this.npmInstall(['wowjs'], { 'saveDev': false });
+
+        // this.npmInstall(['gulp-cssbeautify'], { 'saveDev': true });
+        // this.npmInstall(['gulp-sourcemaps'], { 'saveDev': true });
+        // this.npmInstall(['jshint'], { 'saveDev': true });
+        // this.npmInstall(['gulp-jshint'], { 'saveDev': true });
+        // this.npmInstall(['jshint-stylish'], { 'saveDev': true });
+        // this.npmInstall(['gulp-sort'], { 'saveDev': true });
+        // this.npmInstall(['gulp-group-css-media-queries'], { 'saveDev': true });
+        // this.npmInstall(['run-sequence'], { 'saveDev': true });
+        // this.npmInstall(['wiredep'], { 'saveDev': true });
       }
     }
   },
