@@ -124,7 +124,7 @@ gulp.task('browsersync', function() {
 // to:      ./style.min.css
 gulp.task('css', ['clean:css'], function() {
   return gulp.src(assets['css'].concat(vendors['css']))
-    .pipe(plumber({errorHandler: notify.onError("<%= error.message %>")}))
+    .pipe(plumber({errorHandler: notify.onError("Error")}))
     .pipe(concat('style.min.css'))
     .pipe(sass())
     .pipe(autoprefixer('last 2 version', { cascade: false }))
@@ -162,7 +162,7 @@ gulp.task('javascript', ['clean:javascript'], function() {
       'assets/scripts/modernizr.js',
       'assets/scripts/*.js'
     ], { base: './' }))
-    .pipe(plumber({errorHandler: notify.onError("<%= error.message %>")}))
+    .pipe(plumber({errorHandler: notify.onError("Error")}))
     .pipe(concat('script.min.js'))
     .pipe(uglify())
     .pipe(rename('./script.min.js'))
