@@ -15,7 +15,7 @@ module.exports = generators.Base.extend({
       var done = this.async();
 
       this.log(yosay(
-        'With great power comes great ' + chalk.red('theme generator!')
+        '(test) With great power comes great ' + chalk.red('theme generator!')
       ));
 
       var prompts = [
@@ -51,7 +51,7 @@ module.exports = generators.Base.extend({
         },
         {
           type: 'input',
-          name: 'Author',
+          name: 'author',
           message: 'Author',
           default: 'ThatMuch'
         },
@@ -126,7 +126,7 @@ module.exports = generators.Base.extend({
         done();
       }.bind(this);
 
-      this.log(chalk.yellow('\nLet\'s grab the latest version of Underscores...'));
+      this.log(chalk.yellow('\nLet\'s grab the latest version of Stanlee...'));
 
       new download({mode: '755', extract: true, strip: 1})
         .get('https://github.com/ThatMuch/stanLee-wordpress/archive/master.tar.gz')
@@ -172,7 +172,7 @@ module.exports = generators.Base.extend({
       walker.on("file", function (root, fileStats, next) {
         var filePath = root + '/' + fileStats.name;
 
-        if (path.extname(fileStats.name) == '.php') {
+        if (path.extname(fileStats.name) == '.php' || path.extname(fileStats.name) == '.scss') {
           fs.readFile(filePath, 'utf8', function (err,data) {
             if (err) {
               done(error);
@@ -181,8 +181,10 @@ module.exports = generators.Base.extend({
             var result;
 
             result = data.replace(/'_s'/g, "'" + _this.props.themeslug + "'");
+            result = data.replace(/'_a'/g, "'" + _this.props.author + "'");
             result = result.replace(/_s_/g, _this.props.prefix);
             result = result.replace(/ _s/g, ' ' + _this.props.themename);
+            result = result.replace(/ _a/g, ' ' + _this.props.author);
             result = result.replace(/_s-/g, _this.props.themeslug + '-');
 
             fs.writeFile(filePath, result, 'utf8', function (err) {
