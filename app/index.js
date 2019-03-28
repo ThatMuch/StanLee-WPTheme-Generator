@@ -327,6 +327,16 @@ module.exports = class extends Generator {
   }
   this.log(chalk.blue('Done!'));
 }
+writing() {
+  const pkgJson = {
+    devDependencies: {
+      gulp: '^3.9.1'
+    }
+  };
+
+  // Extend or create package.json file in destination path
+  this.fs.extendJSON(this.destinationPath('package.json'), pkgJson);
+}
 
   install() {
       if (this.gulpsetup) {
