@@ -27,6 +27,7 @@
     "download-status": "^2.2.1",
     "lodash": "^4.17.11",
     "path": "^0.12.7",
+    "update-yeoman-generator": "^1.2.7",
     "walk": "^2.3.14",
     "yeoman-generator": "^3.1.1",
     "yosay": "^2.0.2"
