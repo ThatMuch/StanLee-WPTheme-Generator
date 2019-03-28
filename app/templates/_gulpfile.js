@@ -13,7 +13,7 @@
  *              - `modernizr -c assets/scripts/modernizr-config.json -d assets/scripts` to generate the modernizr.js file from the config-file
  *              - add vendor-requirements to gulp-vendors.json, they will be compiled/bundled by `gulp` (restart `gulp watch`)
  *
- * Author:      ThatMuch (https://flurinduerst.ch)
+ * Author:      <%= author %> (<%= author_email %>)
  *
  * Version:     2.3.1
  *
@@ -28,7 +28,7 @@ var browsersync_proxy = "<%= proxy_address %>";
 // default asset paths
 var assets = {
   css: ['assets/styles/style.scss'],
-  css_watch: ['assets/styles/*.scss'],
+  css_watch: ['assets/styles/**/*.scss'],
   javascript: ['assets/scripts/*.js'],
   images: ['assets/images/*.*'],
   fonts: ['assets/fonts/*.*']
@@ -196,7 +196,7 @@ gulp.task('makepot', function () {
 gulp.task('watch',  ['browsersync'], function() {
   gulp.watch(assets['css_watch'], ['css', 'cachebust']);
   gulp.watch(assets['javascript'], ['javascript']);
-  gulp.watch('*.php', browserSync.reload);
+  gulp.watch('**/*.php', browserSync.reload);
   gulp.watch('*.html', browserSync.reload);
 });
 
