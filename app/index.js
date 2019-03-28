@@ -342,7 +342,6 @@ writing() {
       if (this.gulpsetup) {
         this.log(chalk.yellow('\nInstalling required packages...'));
 
-        this.npmInstall(['gulp'], { 'saveDev': true });
         this.npmInstall(['gulp-concat'], { 'saveDev': true });
         this.npmInstall(['gulp-rename'], { 'saveDev': true });
         this.npmInstall(['gulp-order'], { 'saveDev': true });
