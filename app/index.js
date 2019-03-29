@@ -326,8 +326,7 @@ module.exports = class extends Generator {
 			);
   }
   this.log(chalk.blue('Done!'));
-}
-writing() {
+
   const pkgJson = {
     devDependencies: {
       gulp: '^3.9.1'
