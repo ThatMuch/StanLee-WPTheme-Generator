@@ -31,7 +31,7 @@ module.exports = class extends Generator {
 				},
           {
             type: 'input',
-            name: 'themename',
+            name: 'themeName',
             message: 'Theme Name',
             default: 'Theme Name'
           },
@@ -43,7 +43,7 @@ module.exports = class extends Generator {
           },
           {
             type: 'input',
-            name: 'themeuri',
+            name: 'themeURI',
             message: 'Theme URI',
             default: 'https://thatmuch.fr'
           },
@@ -55,13 +55,13 @@ module.exports = class extends Generator {
           },
           {
             type: 'input',
-            name: 'authoruri',
+            name: 'authorURI',
             message: 'Author URI',
             default: 'https://thatmuch.fr'
           },
           {
             type: 'input',
-            name: 'authoremail',
+            name: 'authorEmail',
             message: 'Author Email',
             default: 'social@thatmuch.fr'
           },
@@ -200,7 +200,7 @@ module.exports = class extends Generator {
 
           var result;
 
-          result = result.replace(/(Theme Name: )(.+)/g, '$1' + _this.themeName);
+          result = data.replace(/(Theme Name: )(.+)/g, '$1' + _this.themeName);
           result = result.replace(/(Theme URI: )(.+)/g, '$1' + _this.themeURI);
           result = result.replace(/(Author: )(.+)/g, '$1' + _this.author);
           result = result.replace(/(Author URI: )(.+)/g, '$1' + _this.authorURI);
