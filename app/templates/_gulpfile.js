@@ -206,7 +206,7 @@ gulp.task('build-clean', function() {
 
 gulp.task('build-copy', function() {
   return gulp.src(build_files)
-    .pipe(gulp.dest('dist/<%= theme_domain %>'));
+    .pipe(gulp.dest('dist/'));
 });
 
 gulp.task('build-zip', function() {
