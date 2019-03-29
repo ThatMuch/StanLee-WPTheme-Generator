@@ -180,6 +180,7 @@ module.exports = class extends Generator {
           result = result.replace(/_s_/g, _this.themeSlug + "_");
           result = result.replace(/ _s/g, ' ' + _this.themeName);
           result = result.replace(/ _a/g, ' ' + _this.author);
+          result = result.replace(/_a_/g, ' ' + _this.author);
           result = result.replace(/_s-/g, _this.themeSlug + '-');
 
 
@@ -199,7 +200,7 @@ module.exports = class extends Generator {
 
           var result;
 
-          result = data.replace(/(Theme Name: )(.+)/g, '$1' + _this.themeName);
+          result = result.replace(/(Theme Name: )(.+)/g, '$1' + _this.themeName);
           result = result.replace(/(Theme URI: )(.+)/g, '$1' + _this.themeURI);
           result = result.replace(/(Author: )(.+)/g, '$1' + _this.author);
           result = result.replace(/(Author URI: )(.+)/g, '$1' + _this.authorURI);
