@@ -60,26 +60,23 @@ var vendors = require('./gulp-vendors.json');
 /* DEPENDENCIES
 /===================================================== */
 // general
-var gulp = require('gulp');
-var concat = require('gulp-concat');
-var rename = require("gulp-rename");
-var order = require("gulp-order");
+var gulp        = require('gulp');
+var concat      = require('gulp-concat');
+var rename      = require("gulp-rename");
+var order       = require("gulp-order");
 var browserSync = require('browser-sync').create();
 // css
-var sass = require('gulp-sass');
-var cleanCSS = require('gulp-clean-css');
+var sass         = require('gulp-sass');
+var cleanCSS     = require('gulp-clean-css');
 var autoprefixer = require('gulp-autoprefixer');
-var csscomb       = require('gulp-csscomb');
-// traduction
-var wpPot         = require('gulp-wp-pot');
 // cache busting
 var rev = require('gulp-rev');
 // js
 var uglify = require('gulp-uglify');
-// images
-// var imagemin = require('gulp-imagemin');
+// traduction
+var wpPot = require('gulp-wp-pot');
 // error handling with notify & plumber
-var notify = require("gulp-notify");
+var notify  = require("gulp-notify");
 var plumber = require('gulp-plumber');
 // watch
 var watch = require('gulp-watch');
@@ -87,7 +84,6 @@ var watch = require('gulp-watch');
 var del = require('del');
 // zip
 var zip = require('gulp-zip');
-var runSequence   = require('run-sequence');
 
 
 /* TASKS
@@ -122,18 +118,18 @@ gulp.task('browsersync', function() {
 // from:    assets/styles/main.css
 // actions: compile, minify, prefix, rename
 // to:      ./style.min.css
-gulp.task('css', ['clean:css'], function() {
-  return gulp.src(assets['css'].concat(vendors['css']))
+gulp.task('css', gulp.series('clean:css', function() {
+  return gulp
+    .src(assets['css'].concat(vendors['css']))
     .pipe(plumber({errorHandler: notify.onError("Error")}))
     .pipe(concat('style.min.css'))
     .pipe(sass())
     .pipe(autoprefixer('last 2 version', { cascade: false }))
-    .pipe(csscomb())
     .pipe(cleanCSS())
     .pipe(rename('./style.min.css'))
     .pipe(gulp.dest('./'))
     .pipe(browserSync.stream());
-});
+}));
 
 
 /* CSS CACHE BUSTING
@@ -141,13 +137,14 @@ gulp.task('css', ['clean:css'], function() {
 // from:    dist/style.min.css
 // actions: create busted version of file
 // to:      dist/style-[hash].min.css
-gulp.task('cachebust', ['clean:cachebust', 'css'], function() {
-  return gulp.src('./style.min.css')
+gulp.task('cachebust', gulp.series('clean:cachebust', 'css', function() {
+  return gulp
+    .src('./style.min.css')
     .pipe(rev())
     .pipe(gulp.dest('./'))
     .pipe(rev.manifest({merge: true}))
     .pipe(gulp.dest('./'))
-});
+}));
 
 
 /* JAVASCRIPT
@@ -156,19 +153,20 @@ gulp.task('cachebust', ['clean:cachebust', 'css'], function() {
 // actions: concatinate, minify, rename
 // to:      ./script.min.css
 // note:    modernizr.js is concatinated first in .pipe(order)
-gulp.task('javascript', ['clean:javascript'], function() {
-  return gulp.src(assets['javascript'].concat(vendors['javascript']))
+gulp.task('javascript', gulp.series('clean:javascript', function() {
+  return gulp
+    .src(assets['javascript'].concat(vendors['javascript']))
     .pipe(order([
       'assets/scripts/modernizr.js',
       'assets/scripts/*.js'
     ], { base: './' }))
-    .pipe(plumber({errorHandler: notify.onError("Error")}))
+    .pipe(plumber({errorHandler: notify.onError("<%= error.message %>")}))
     .pipe(concat('script.min.js'))
     .pipe(uglify())
     .pipe(rename('./script.min.js'))
     .pipe(gulp.dest('./'))
     .pipe(browserSync.stream());
-});
+}));
 
 /* LANGUAGES
 /––––––––––––––––––––––––*/
@@ -176,7 +174,8 @@ gulp.task('javascript', ['clean:javascript'], function() {
 // actions: Generates pot files for WordPress plugins and themes.
 // to:      ./languages
 gulp.task('makepot', function () {
-  return gulp.src(['**/*.php'])
+  return gulp
+    .src(['**/*.php'])
     .pipe(wpPot({
       domain: '<%= theme_domain %>',
       destFile: '<%= theme_domain %>.pot',
@@ -193,38 +192,40 @@ gulp.task('makepot', function () {
 /––––––––––––––––––––––––*/
 // watch for modifications in
 // styles, scripts, images, php files, html files
-gulp.task('watch',  ['browsersync'], function() {
-  gulp.watch(assets['css_watch'], ['css', 'cachebust']);
-  gulp.watch(assets['javascript'], ['javascript']);
-  gulp.watch('**/*.php', browserSync.reload);
-  gulp.watch('*.html', browserSync.reload);
-});
+gulp.task('watch',  gulp.parallel('browsersync', function() {
+  watch(assets['css_watch'], gulp.series('css', 'cachebust'));
+  watch(assets['javascript'], gulp.series('javascript'));
+  watch('**/*.php', browserSync.reload);
+  watch('*.html', browserSync.reload);
+}));
 
 gulp.task('build-clean', function() {
-  del(['dist/**/*']);
+  return del(['dist/**/*']);
 });
 
 gulp.task('build-copy', function() {
-  return gulp.src(build_files)
+  return gulp
+    .src(build_files)
     .pipe(gulp.dest('dist/'));
 });
 
 gulp.task('build-zip', function() {
-  return gulp.src('dist/**/*')
+  return gulp
+    .src('dist/**/*')
     .pipe(zip('<%= theme_domain %>.zip'))
     .pipe(gulp.dest('dist'));
 });
 
 gulp.task('build-delete', function() {
-  del(['dist/**/*', '!dist/<%= theme_domain %>.zip']);
+  return del(['dist/**/*', '!dist/<%= theme_domain %>.zip']);
 });
 
-gulp.task('build', function(callback) {
-  runSequence('default','build-clean', 'build-copy', 'build-zip', 'build-delete');
-});
+gulp.task('build',
+  gulp.series('default','build-clean', 'build-copy', 'build-zip', 'build-delete')
+);
 
 
 /* DEFAULT
 /––––––––––––––––––––––––*/
 // default gulp tasks executed with `gulp`
-gulp.task('default', ['css', 'cachebust', 'javascript','makepot']);
+gulp.task('default', gulp.series('css', 'cachebust', 'javascript','makepot'));

@@ -2,5 +2,32 @@
   "name": "<%= package_name %>",
   "version": "1.0.0",
   "description": "<%= package_description %>",
-  "author": "<%= package_author %>"
+  "author": "<%= package_author %>",
+  "devDependencies": {
+    "browser-sync": "^2.26.7",
+    "del": "^3.0.0",
+    "gulp": "^4.0.2",
+    "gulp-autoprefixer": "^6.0.0",
+    "gulp-clean-css": "^3.10.0",
+    "gulp-concat": "^2.6.1",
+    "gulp-notify": "^3.2.0",
+    "gulp-order": "^1.2.0",
+    "gulp-plumber": "^1.2.0",
+    "gulp-rename": "^1.4.0",
+    "gulp-rev": "^8.1.1",
+    "gulp-sass": "^4.0.2",
+    "gulp-uglify": "^3.0.1",
+    "gulp-watch": "^5.0.1",
+    "gulp-wp-pot": "^2.3.2",
+    "gulp-zip": "^4.2.0"
+  },
+  "dependencies": {
+    "animate.css": "^3.7.0",
+    "bootstrap": "^4.4.1",
+    "hamburgers": "^1.1.3",
+    "jquery": "^1.9.1",
+    "normalize.css": "^8.0.0",
+    "popper.js": "^1.16.0",
+    "wowjs": "^1.1.3"
+  }
 }
