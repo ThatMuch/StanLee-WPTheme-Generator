@@ -160,7 +160,7 @@ gulp.task('javascript', gulp.series('clean:javascript', function() {
       'assets/scripts/modernizr.js',
       'assets/scripts/*.js'
     ], { base: './' }))
-    .pipe(plumber({errorHandler: notify.onError("<%= error.message %>")}))
+    .pipe(plumber({errorHandler: notify.onError("Error")}))
     .pipe(concat('script.min.js'))
     .pipe(uglify())
     .pipe(rename('./script.min.js'))
