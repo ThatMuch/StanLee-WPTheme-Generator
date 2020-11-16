@@ -27,11 +27,14 @@ var browsersync_proxy = "<%= proxy_address %>";
 
 // default asset paths
 var assets = {
-  css: ['assets/styles/style.scss'],
-  css_watch: ['assets/styles/**/*.scss'],
+  css       : ['assets/styles/style.scss'],
+  css_watch : ['assets/styles/**/*.scss'],
+  admin_css: ['assets/AdminStyles/admin.scss'],
+  admin_css_watch: ['assets/AdminStyles/**/*.scss'],
+  login_css: ['assets/AdminStyles/login.scss'],
   javascript: ['assets/scripts/*.js'],
-  images: ['assets/images/*.*'],
-  fonts: ['assets/fonts/*.*']
+  images    : ['assets/images/*.*'],
+  fonts     : ['assets/fonts/*.*']
 }
 
 var build_files = [
@@ -108,7 +111,8 @@ gulp.task('browsersync', function() {
     snippetOptions: {
       whitelist: ['/wp-admin/admin-ajax.php'],
       blacklist: ['/wp-admin/**']
-    }
+    },
+    reloadDelay: 800
   });
 });
 
@@ -127,6 +131,42 @@ gulp.task('css', gulp.series('clean:css', function() {
     .pipe(autoprefixer('last 2 version', { cascade: false }))
     .pipe(cleanCSS())
     .pipe(rename('./style.min.css'))
+    .pipe(gulp.dest('./'))
+    .pipe(browserSync.stream());
+}));
+
+/* ADMIN CSS
+/––––––––––––––––––––––––*/
+// from:    assets/styles/main.css
+// actions: compile, minify, prefix, rename
+// to:      ./style.min.css
+gulp.task('admin_css',gulp.series('clean:admin_css',function () {
+  return gulp
+    .src(assets['admin_css'])
+    .pipe(plumber({ errorHandler: notify.onError("<%= error.message %>") }))
+    .pipe(concat('admin_style.min.css'))
+    .pipe(sass())
+    .pipe(autoprefixer('last 2 version',{ cascade: false }))
+    .pipe(cleanCSS())
+    .pipe(rename('./admin_style.min.css'))
+    .pipe(gulp.dest('./'))
+    .pipe(browserSync.stream());
+}));
+
+/* LOGIN CSS
+/––––––––––––––––––––––––*/
+// from:    assets/styles/main.css
+// actions: compile, minify, prefix, rename
+// to:      ./style.min.css
+gulp.task('login_css',gulp.series('clean:admin_css',function () {
+  return gulp
+    .src(assets['login_css'])
+    .pipe(plumber({ errorHandler: notify.onError("<%= error.message %>") }))
+    .pipe(concat('login_style.min.css'))
+    .pipe(sass())
+    .pipe(autoprefixer('last 2 version',{ cascade: false }))
+    .pipe(cleanCSS())
+    .pipe(rename('./login_style.min.css'))
     .pipe(gulp.dest('./'))
     .pipe(browserSync.stream());
 }));
@@ -192,11 +232,13 @@ gulp.task('makepot', function () {
 /––––––––––––––––––––––––*/
 // watch for modifications in
 // styles, scripts, images, php files, html files
-gulp.task('watch',  gulp.parallel('browsersync', function() {
-  watch(assets['css_watch'], gulp.series('css', 'cachebust'));
-  watch(assets['javascript'], gulp.series('javascript'));
-  watch('**/*.php', browserSync.reload);
-  watch('*.html', browserSync.reload);
+gulp.task('watch',gulp.parallel('browsersync',function () {
+  watch(assets['css_watch'],gulp.series('css','cachebust'));
+  watch(assets['admin_css_watch'],gulp.series('admin_css','login_css'));
+  watch(assets['javascript'],gulp.series('javascript'));
+  watch('**/*.php',browserSync.reload);
+  watch('*.html',browserSync.reload);
+  watch('**/*.scss',browserSync.reload);
 }));
 
 gulp.task('build-clean', function() {
@@ -220,12 +262,12 @@ gulp.task('build-delete', function() {
   return del(['dist/**/*', '!dist/<%= theme_domain %>.zip']);
 });
 
-gulp.task('build',
-  gulp.series('default','build-clean', 'build-copy', 'build-zip', 'build-delete')
-);
-
 
 /* DEFAULT
 /––––––––––––––––––––––––*/
 // default gulp tasks executed with `gulp`
-gulp.task('default', gulp.series('css', 'cachebust', 'javascript','makepot'));
+gulp.task('default',gulp.series('css','admin_css', 'login_css','cachebust', 'javascript','makepot'));
+
+gulp.task('build',
+  gulp.series('default','build-clean','build-copy','build-zip','build-delete')
+);
