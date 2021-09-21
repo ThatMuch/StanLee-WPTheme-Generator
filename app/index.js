@@ -5,14 +5,13 @@ var _ = require('lodash');
 var fs = require('fs');
 var del = require('del');
 var download = require('download');
-var downloadStatus = require('download-status');
 var walk = require('walk');
 var path = require('path');
 
 module.exports = class extends Generator {
   prompting() {
       this.log(yosay(
-        '(test gulp insert) With great power comes great ' + chalk.red('theme generator!')
+        '(test gulp insert) With great power comes great a' + chalk.red('theme generator!')
       ));
 
       return this.prompt(
@@ -27,25 +26,25 @@ module.exports = class extends Generator {
 						type: 'input',
 						name: 'domain',
 						message: 'If you want to add a domain site',
-						default: ''
+						default: 'StanLee'
 				},
           {
             type: 'input',
             name: 'themeName',
             message: 'Theme Name',
-            default: 'Theme Name'
+            default: 'StanLee'
           },
           {
             type: 'input',
             name: 'themeSlug',
             message: 'Theme Slug',
-            default: 'Theme Slug'
+            default: 'stanlee'
           },
           {
             type: 'input',
             name: 'themeURI',
             message: 'Theme URI',
-            default: 'https://thatmuch.fr'
+            default: 'http://stanlee.thatmuch.fr/'
           },
           {
             type: 'input',
@@ -69,7 +68,7 @@ module.exports = class extends Generator {
             type: 'input',
             name: 'description',
             message: 'Description',
-            default: 'Description'
+            default: 'A great Wordrpress theme'
           },
           {
             type: 'input',
@@ -77,24 +76,6 @@ module.exports = class extends Generator {
             message: 'Bug Report',
             default: 'https://example.com/bugreport/'
           },
-          {
-            type: 'confirm',
-            name: 'gitignore',
-            message: 'Would you like to add a ' + chalk.white('.gitignore') + ' file?',
-            default: true
-          },
-          {
-            type: 'confirm',
-            name: 'editorconfig',
-            message: 'Would you like to add a ' + chalk.white('.editorconfig') + ' file?',
-            default: true
-          },
-					{
-						type: 'confirm',
-						name: 'stylelintrc',
-						message: 'Would you like to add a ' + chalk.white('.stylelintrc') + ' file?',
-						default: true
-				},
           {
             type: 'confirm',
             name: 'gulpsetup',
@@ -113,9 +94,7 @@ module.exports = class extends Generator {
               this.authorEmail = answers.authorEmail;
               this.description = answers.description;
               this.bugreport = answers.bugreport;
-              this.gitignore = answers.gitignore;
-              this.stylelintrc = answers.stylelintrc;
-              this.gulpsetup = answers.gulpsetup;
+      this.gulpsetup = answers.gulpsetup;
       });
   }
 
@@ -244,7 +223,7 @@ module.exports = class extends Generator {
 
           var result;
 
-          result = data.replace(/Copyright (C) 2018 ThatMuch/g, 'Copyright (C) 2018 ' + _this.author);
+          result = data.replace(/Copyright (C) 2018 ThatMuch/g,'Copyright (C) ' + new Date().getFullYear()+ ' ' + _this.author);
           result = result.replace(/Project-Id-Version: _s/g, 'Project-Id-Version: ' + _this.themeName);
           result = result.replace(/Report-Msgid-Bugs-To: https:\/\/wordpress.org\/tags\/_s/g, 'Report-Msgid-Bugs-To: ' + _this.bugreport);
           result = result.replace(/Language-Team: LANGUAGE <LL@li\.org>/g, 'Language-Team: ' + _this.author + '<' + _this.authorEmail + '>');
@@ -278,25 +257,6 @@ module.exports = class extends Generator {
   });
 
   this.log(chalk.yellow('\nCopying configuration files...'));
-		if (this.gitignore) {
-			this.fs.copy(
-				this.templatePath('_gitignore'),
-				this.destinationPath('.gitignore')
-			);
-		}
-		if (this.editorconfig) {
-			this.fs.copy(
-				this.templatePath('_editorconfig'),
-				this.destinationPath('.editorconfig')
-			);
-		}
-
-		if (this.stylelintrc) {
-			this.fs.copy(
-				this.templatePath('_stylelintrc'),
-				this.destinationPath('.stylelintrc')
-			);
-		}
 		if (this.gulpsetup) {
 			this.fs.copyTpl(
 				this.templatePath('_package.json'),
@@ -315,8 +275,8 @@ module.exports = class extends Generator {
 			);
 
 			this.fs.copyTpl(
-				this.templatePath('_gulpfile.js'),
-				this.destinationPath('gulpfile.js'), {
+				this.templatePath('_wpgulp.config.js'),
+        this.destinationPath('wpgulp.config.js'), {
           theme_domain: this.themeSlug,
           proxy_address: this.proxy,
           package_name: this.themeSlug,
@@ -330,7 +290,7 @@ module.exports = class extends Generator {
 
   const pkgJson = {
     devDependencies: {
-      gulp: '^3.9.1'
+      gulp: '^4.0.0'
     }
   };
 
@@ -342,29 +302,34 @@ module.exports = class extends Generator {
       if (this.gulpsetup) {
         this.log(chalk.yellow('\nInstalling required packages...'));
 
-        this.npmInstall(['gulp-concat'], { 'saveDev': true });
-        this.npmInstall(['gulp-rename'], { 'saveDev': true });
-        this.npmInstall(['gulp-order'], { 'saveDev': true });
+        this.npmInstall(['beepbeep'], { 'saveDev': true });
         this.npmInstall(['browser-sync'], { 'saveDev': true });
-        this.npmInstall(['gulp-sass'], { 'saveDev': true });
-        this.npmInstall(['gulp-clean-css'], { 'saveDev': true });
+        this.npmInstall(['eslint'], { 'saveDev': true });
+        this.npmInstall(['eslint-config-wordpress'], { 'saveDev': true });
         this.npmInstall(['gulp-autoprefixer'], { 'saveDev': true });
-        this.npmInstall(['gulp-csscomb'], { 'saveDev': true });
-        this.npmInstall(['gulp-wp-pot'], { 'saveDev': true });
-        this.npmInstall(['gulp-rev'], { 'saveDev': true });
-        this.npmInstall(['gulp-uglify'], { 'saveDev': true });
+        this.npmInstall(['gulp-babel'], { 'saveDev': true });
+        this.npmInstall(['gulp-cache'], { 'saveDev': true });
+        this.npmInstall(['gulp-concat'], { 'saveDev': true });
+        this.npmInstall(['gulp-filter'], { 'saveDev': true });
+        this.npmInstall(['gulp-imagemin'], { 'saveDev': true });
+        this.npmInstall(['gulp-line-ending-corrector'], { 'saveDev': true });
+        this.npmInstall(['gulp-merge-media-queries'], { 'saveDev': true });
         this.npmInstall(['gulp-notify'], { 'saveDev': true });
         this.npmInstall(['gulp-plumber'], { 'saveDev': true });
-        this.npmInstall(['gulp-watch'], { 'saveDev': true });
-        this.npmInstall(['del'], { 'saveDev': true });
+        this.npmInstall(['gulp-remember'], { 'saveDev': true });
+        this.npmInstall(['gulp-rename'], { 'saveDev': true });
+        this.npmInstall(['gulp-rtlcss'], { 'saveDev': true });
+        this.npmInstall(['gulp-sass'], { 'saveDev': true });
+        this.npmInstall(['gulp-sort'], { 'saveDev': true });
+        this.npmInstall(['gulp-sourcemaps'], { 'saveDev': true });
+        this.npmInstall(['gulp-uglifycss'], { 'saveDev': true });
+        this.npmInstall(['gulp-wp-pot'], { 'saveDev': true });
         this.npmInstall(['gulp-zip'], { 'saveDev': true });
-        this.npmInstall(['run-sequence'], { 'saveDev': true });
 
-        this.npmInstall(['animate.css'], { 'saveDev': false });
+
         this.npmInstall(['bootstrap'], { 'saveDev': false });
-        this.npmInstall(['hamburgers'], { 'saveDev': false });
-        this.npmInstall(['normalize.css'], { 'saveDev': false });
-        this.npmInstall(['wowjs'], { 'saveDev': false });
+        this.npmInstall(['gulp-order'], { 'saveDev': false });
+
       }
 
   }
@@ -372,7 +337,7 @@ module.exports = class extends Generator {
   end() {
       this.log(chalk.green('\nAll Done!!\n------------------------\n'));
       if (this.gulpsetup) {
-        this.log('\nRun ' + chalk.green('gulp') + ' to start the development and ' + chalk.green('gulp build') + ' to create a zip file in ' + chalk.white('dist/' + this.themeSlug + '.zip') + ' ready for production.');
+        this.log('\nRun ' + chalk.green('npm start') + ' to start the development and ' + chalk.green('npm run zip') + ' to create a zip file in ' + chalk.white('dist/' + this.themeSlug + '.zip') + ' ready for production.');
       }
 
   }
