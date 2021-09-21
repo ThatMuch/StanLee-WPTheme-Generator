@@ -20,9 +20,9 @@
   "author": "Mathilde and Thomas based on package MNyorba",
   "license": "MIT",
   "dependencies": {
-    "chalk": "^2.4.1",
-    "copy": "^0.0.1",
-    "del": "^3.0.0",
+    "chalk": "^3.0.0",
+    "copy": "^0.3.2",
+    "del": "^5.1.0",
     "download": "^7.1.0",
     "download-status": "^2.2.1",
     "lodash": "^4.17.11",

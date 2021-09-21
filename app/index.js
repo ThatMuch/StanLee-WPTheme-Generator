@@ -1,3 +1,4 @@
+'use strict';
 var Generator = require('yeoman-generator');
 var chalk = require('chalk');
 var yosay = require('yosay');
@@ -11,7 +12,7 @@ var path = require('path');
 module.exports = class extends Generator {
   prompting() {
       this.log(yosay(
-        '(test gulp insert) With great power comes great a' + chalk.red('theme generator!')
+        'With great power comes great a' + chalk.red('theme generator!')
       ));
 
       return this.prompt(
@@ -24,9 +25,9 @@ module.exports = class extends Generator {
           },
 					{
 						type: 'input',
-						name: 'domain',
+						name: 'domainName',
 						message: 'If you want to add a domain site',
-						default: 'StanLee'
+						default: ''
 				},
           {
             type: 'input',
@@ -82,10 +83,11 @@ module.exports = class extends Generator {
             message: 'Would you like to setup a Gulp configuration ready to use?',
             default: true
           }
-      ]
+      ],
+
     ).then((answers) => {
-              this.proxy = answers.proxy;
-              this.domain = answers.domain;
+            this.proxy = answers.proxy;
+      this.domainName = answers.domainName;
               this.themeName = answers.themeName;
               this.themeSlug = answers.themeSlug;
               this.themeURI = answers.themeURI;
@@ -94,8 +96,10 @@ module.exports = class extends Generator {
               this.authorEmail = answers.authorEmail;
               this.description = answers.description;
               this.bugreport = answers.bugreport;
-      this.gulpsetup = answers.gulpsetup;
+              this.gulpsetup = answers.gulpsetup;
       });
+
+
   }
 
   writing() {
@@ -265,7 +269,7 @@ module.exports = class extends Generator {
 					package_description: this.description,
 					package_author: this.author,
 					proxy_address: this.proxy,
-					proxy_domain: this.domain,
+          proxy_domain: this.domainName,
 					theme_name: this.themeName,
 					theme_domain: this.themeSlug,
 					theme_bugreport: this.bugreport,
@@ -298,41 +302,7 @@ module.exports = class extends Generator {
   this.fs.extendJSON(this.destinationPath('package.json'), pkgJson);
 }
 
-  install() {
-      if (this.gulpsetup) {
-        this.log(chalk.yellow('\nInstalling required packages...'));
 
-        this.npmInstall(['beepbeep'], { 'saveDev': true });
-        this.npmInstall(['browser-sync'], { 'saveDev': true });
-        this.npmInstall(['eslint'], { 'saveDev': true });
-        this.npmInstall(['eslint-config-wordpress'], { 'saveDev': true });
-        this.npmInstall(['gulp-autoprefixer'], { 'saveDev': true });
-        this.npmInstall(['gulp-babel'], { 'saveDev': true });
-        this.npmInstall(['gulp-cache'], { 'saveDev': true });
-        this.npmInstall(['gulp-concat'], { 'saveDev': true });
-        this.npmInstall(['gulp-filter'], { 'saveDev': true });
-        this.npmInstall(['gulp-imagemin'], { 'saveDev': true });
-        this.npmInstall(['gulp-line-ending-corrector'], { 'saveDev': true });
-        this.npmInstall(['gulp-merge-media-queries'], { 'saveDev': true });
-        this.npmInstall(['gulp-notify'], { 'saveDev': true });
-        this.npmInstall(['gulp-plumber'], { 'saveDev': true });
-        this.npmInstall(['gulp-remember'], { 'saveDev': true });
-        this.npmInstall(['gulp-rename'], { 'saveDev': true });
-        this.npmInstall(['gulp-rtlcss'], { 'saveDev': true });
-        this.npmInstall(['gulp-sass'], { 'saveDev': true });
-        this.npmInstall(['gulp-sort'], { 'saveDev': true });
-        this.npmInstall(['gulp-sourcemaps'], { 'saveDev': true });
-        this.npmInstall(['gulp-uglifycss'], { 'saveDev': true });
-        this.npmInstall(['gulp-wp-pot'], { 'saveDev': true });
-        this.npmInstall(['gulp-zip'], { 'saveDev': true });
-
-
-        this.npmInstall(['bootstrap'], { 'saveDev': false });
-        this.npmInstall(['gulp-order'], { 'saveDev': false });
-
-      }
-
-  }
 
   end() {
       this.log(chalk.green('\nAll Done!!\n------------------------\n'));
